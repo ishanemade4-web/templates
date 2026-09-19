@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Safety Assistant</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 50px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        input, textarea {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #1565c0;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    background: #1565c0;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0d47a1;
+}
+
+#result, #passwordResult, #scamResult, #safetyMessage {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+        h1 {
+            text-align: center;
+            color: #1565c0;
+            font-size: 35px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+        }
+
+        h2 {
+            color: #6a1b9a;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: #f5f9ff;
+            margin: 15px 0;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 6px solid #1565c0;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1565c0;
+        }
+
+        .warning {
+            background: #fff3e0;
+            border-left: 6px solid #fb8c00;
+        }
+
+        .safe {
+            background: #e8f5e9;
+            border-left: 6px solid #43a047;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔐 Digital Safety Assistant</h1>
+
+    <p class="subtitle">
+        Stay Safe. Think Before You Click.
+    </p>
+
+    <h2>🛡️ Online Safety Tips</h2>
+
+    <div class="card safe">
+        <h3>🔑 Protect Your Password</h3>
+        <p>Never share your password with anyone.</p>
+    </div>
+
+    <div class="card warning">
+        <h3>🔗 Be Careful With Links</h3>
+        <p>Do not click unknown or suspicious links.</p>
+    </div>
+
+    <div class="card warning">
+        <h3>📱 Never Share OTP</h3>
+        <p>Never share your OTP, PIN or banking details with anyone.</p>
+    </div>
+
+    <div class="card safe">
+        <h3>💳 Stay Safe Online</h3>
+        <p>Check the website and sender before making online payments.</p>
+    </div>
+
+    <div class="card">
+        <h3>⚠️ Think Before You Click</h3>
+        <p>
+            Stop, check and think before clicking a link,
+            downloading a file or sharing personal information.
+        </p>
+    </div>
+    <h2>🔎 Link Safety Checker</h2>
+
+<div class="card">
+    <h3>Check Before You Click</h3>
+
+    <input type="text" id="linkInput"
+           placeholder="Paste a link here">
+
+    <button onclick="checkLink()">Check Link</button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+function checkLink() {
+    let link = document.getElementById("linkInput").value;
+    let result = document.getElementById("result");
+
+    if (link === "") {
+        result.innerHTML = "⚠️ Please enter a link.";
+        return;
+    }
+
+    if (link.startsWith("https://")) {
+        result.innerHTML = "✅ This link uses HTTPS. Still verify the website before clicking.";
+    } else {
+        result.innerHTML = "⚠️ Be careful! This link does not use HTTPS.";
+    }
+}
+</script>
+<h2>🔐 Password Strength Checker</h2>
+
+<div class="card">
+    <h3>Check Your Password</h3>
+
+    <input type="password" id="passwordInput"
+           placeholder="Enter your password">
+
+    <button onclick="checkPassword()">Check Password</button>
+
+    <p id="passwordResult"></p>
+</div>
+
+<script>
+function checkPassword() {
+    let password = document.getElementById("passwordInput").value;
+    let result = document.getElementById("passwordResult");
+
+    if (password.length == 0) {
+        result.innerHTML = "⚠️ Please enter a password.";
+    }
+    else if (password.length < 6) {
+        result.innerHTML = "🔴 Weak Password";
+    }
+    else if (password.length < 10) {
+        result.innerHTML = "🟠 Medium Password";
+    }
+    else {
+        result.innerHTML = "🟢 Strong Password";
+    }
+}
+</script>
+<h2>🚨 Scam Message Checker</h2>
+
+<div class="card warning">
+    <h3>Check a Suspicious Message</h3>
+
+    <textarea id="messageInput"
+              placeholder="Paste suspicious message here"
+              rows="5"></textarea>
+
+    <br><br>
+
+    <button onclick="checkScam()">Check Message</button>
+
+    <p id="scamResult"></p>
+</div>
+
+<script>
+function checkScam() {
+    let message = document.getElementById("messageInput").value.toLowerCase();
+    let result = document.getElementById("scamResult");
+
+    if (message === "") {
+        result.innerHTML = "⚠️ Please enter a message.";
+        return;
+    }
+
+    let warningWords = [
+        "urgent",
+        "otp",
+        "password",
+        "click here",
+        "verify your account",
+        "prize",
+        "winner",
+        "bank",
+        "money"
+    ];
+
+    let found = warningWords.filter(word => message.includes(word));
+
+    if (found.length >= 2) {
+        result.innerHTML =
+            "🚨 Warning! This message contains several scam warning signs. Do not click links or share personal information.";
+    } else if (found.length === 1) {
+        result.innerHTML =
+            "⚠️ Be careful! This message contains a possible warning sign. Verify the sender before taking action.";
+    } else {
+        result.innerHTML =
+            "✅ No common warning words detected. Still verify the sender before trusting the message.";
+    }
+}
+</script>
+<h2>🚨 Report a Scam</h2>
+
+<div class="card">
+    <h3>What to Do If You Face a Scam</h3>
+
+    <p>1️⃣ Do not share OTP, PIN or password.</p>
+    <p>2️⃣ Stop communicating with the suspicious person.</p>
+    <p>3️⃣ Save screenshots or other evidence.</p>
+    <p>4️⃣ Inform a trusted adult, bank or relevant service.</p>
+    <p>5️⃣ In India, you can report cybercrime through the official cybercrime reporting system.</p>
+
+    <button onclick="showSafetyMessage()">Show Safety Reminder</button>
+
+    <p id="safetyMessage"></p>
+</div>
+
+<script>
+function showSafetyMessage() {
+    document.getElementById("safetyMessage").innerHTML =
+        "🛡️ Stay calm. Don't share personal information and get help from a trusted person.";
+}
+</script>
+<h2>📘 About This Project</h2>
+
+<div class="card">
+    <h3>🛡️ Digital Safety Assistant</h3>
+
+    <p>
+        Digital Safety Assistant is a simple web-based project
+        designed to spread awareness about online scams,
+        suspicious links, password safety and safe digital habits.
+    </p>
+</div>
+
+<h2>⚙️ How It Works</h2>
+
+<div class="card safe">
+    <h3>1️⃣ Check</h3>
+    <p>Enter a suspicious link, password or message.</p>
+</div>
+
+<div class="card">
+    <h3>2️⃣ Analyze</h3>
+    <p>The website checks the entered information for basic warning signs.</p>
+</div>
+
+<div class="card safe">
+    <h3>3️⃣ Stay Safe</h3>
+    <p>Follow the safety advice and avoid sharing sensitive information.</p>
+</div>
+
+    <footer>
+        © 2026 Digital Safety Assistant
+    </footer>
+
+</div>
+
+</body>
+</html>
